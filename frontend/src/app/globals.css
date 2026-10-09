@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+:root {
+  --font-inter: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --color-bg-base: #080d1a;
+  --color-bg-card: #0d1526;
+}
+
+* { box-sizing: border-box; }
+body { font-family: var(--font-inter); }
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(99,130,255,0.20); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(99,130,255,0.35); }
+
+/* Shimmer skeleton */
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, #0f1629 25%, #1a2744 50%, #0f1629 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 6px;
+}
+
+/* Pulse dot */
+@keyframes pulse-ring {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(1.6); }
+}
+.pulse-dot { animation: pulse-ring 2s ease-in-out infinite; }
+
+/* Page enter */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.page-enter { animation: fadeUp 0.25s ease; }
