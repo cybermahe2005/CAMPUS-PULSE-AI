@@ -1,17 +1,39 @@
+﻿# Campus Pulse AI - Backend Dependencies (Render-compatible)
+#
+# FIXES:
+#   1. bcrypt==4.0.1  — passlib 1.7.4 uses bcrypt.__about__.__version__ (removed in bcrypt 4.1+)
+#   2. numpy==1.26.4  — shap==0.46.0 requires numpy<2 (numpy 2.x causes ImportError)
+#   3. dnspython added — required for mongodb+srv:// Atlas connection strings
+
+# Web Framework
 fastapi==0.115.12
 uvicorn[standard]==0.34.3
+python-multipart==0.0.20
+
+# Data Validation
 pydantic==2.11.3
 pydantic-settings==2.8.1
+
+# Database
 motor==3.7.0
 pymongo==4.10.1
+dnspython==2.7.0
+
+# Auth / Security
+passlib==1.7.4
+bcrypt==4.0.1
 python-jose[cryptography]==3.3.0
-passlib[bcrypt]==1.7.4
-python-multipart==0.0.20
+
+# HTTP
+httpx==0.28.1
+
+# Environment
+python-dotenv==1.1.0
+
+# Data Science / ML  (numpy<2 required — shap 0.46.0 is incompatible with numpy>=2)
+numpy==1.26.4
 pandas==2.2.3
-numpy==2.2.4
-scikit-learn==1.6.1
+scikit-learn==1.5.2
+joblib==1.4.2
 xgboost==2.1.4
 shap==0.46.0
-joblib==1.4.2
-httpx==0.28.1
-python-dotenv==1.1.0

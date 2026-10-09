@@ -1,0 +1,28 @@
+﻿services:
+  - type: web
+    name: campus-pulse-ai-backend
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install --upgrade pip && pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: DEBUG
+        value: "false"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: MONGODB_URL
+        sync: false
+      - key: DB_NAME
+        value: campus_pulse
+      - key: CORS_ORIGINS
+        value: "https://campus-pulse-ai-orpin.vercel.app,http://localhost:3000"
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: "480"
+      - key: MODEL_DIR
+        value: "./models"
+      - key: DATA_DIR
+        value: "./datasets"
+      - key: SEED
+        value: "42"

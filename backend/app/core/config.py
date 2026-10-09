@@ -1,13 +1,14 @@
-"""Application configuration loaded from environment variables."""
+﻿"""Application configuration loaded from environment variables."""
 from pydantic_settings import BaseSettings
 from typing import List
+import json
 
 
 class Settings(BaseSettings):
     APP_NAME: str = "CampusPulseAI"
     APP_VERSION: str = "1.0.0"
     APP_ENV: str = "development"
-    DEBUG: bool = True
+    DEBUG: bool = False
 
     # Security
     SECRET_KEY: str = "change-me-in-production-very-long-secret"
@@ -18,8 +19,10 @@ class Settings(BaseSettings):
     MONGODB_URL: str = "mongodb://localhost:27017"
     DB_NAME: str = "campus_pulse"
 
-    # CORS
-    CORS_ORIGINS: List[str] = ["http://localhost:3000", "http://localhost:3001"]
+    # CORS — Render env vars cannot be JSON arrays.
+    # Set as comma-separated string: https://app.example.com,https://admin.example.com
+    # OR as JSON array: ["https://app.example.com"] — both formats are handled below.
+    CORS_ORIGINS: str = "http://localhost:3000,http://localhost:3001"
 
     # ML
     MODEL_DIR: str = "./models"
@@ -33,6 +36,17 @@ class Settings(BaseSettings):
     class Config:
         env_file = ".env"
         env_file_encoding = "utf-8"
+
+    @property
+    def cors_origins_list(self) -> List[str]:
+        """Parse CORS_ORIGINS — accepts JSON array OR comma-separated string."""
+        val = self.CORS_ORIGINS.strip()
+        if val.startswith("["):
+            try:
+                return json.loads(val)
+            except json.JSONDecodeError:
+                pass
+        return [o.strip() for o in val.split(",") if o.strip()]
 
 
 settings = Settings()
