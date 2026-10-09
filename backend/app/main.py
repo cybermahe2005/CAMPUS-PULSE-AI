@@ -1,4 +1,4 @@
-﻿"""
+"""
 Campus Pulse AI - FastAPI Application Entry Point
 """
 from fastapi import FastAPI
@@ -30,7 +30,7 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# CORS — uses property that handles both JSON array and CSV string formats
+# CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.cors_origins_list,

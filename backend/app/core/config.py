@@ -1,10 +1,16 @@
-﻿"""Application configuration loaded from environment variables."""
-from pydantic_settings import BaseSettings
+"""Application configuration loaded from environment variables."""
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing import List
 import json
 
 
 class Settings(BaseSettings):
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        extra="ignore",          # ignore unknown env vars (prevents validation errors)
+    )
+
     APP_NAME: str = "CampusPulseAI"
     APP_VERSION: str = "1.0.0"
     APP_ENV: str = "development"
@@ -20,8 +26,7 @@ class Settings(BaseSettings):
     DB_NAME: str = "campus_pulse"
 
     # CORS — Render env vars cannot be JSON arrays.
-    # Set as comma-separated string: https://app.example.com,https://admin.example.com
-    # OR as JSON array: ["https://app.example.com"] — both formats are handled below.
+    # Set as CSV: https://app.example.com,https://admin.example.com
     CORS_ORIGINS: str = "http://localhost:3000,http://localhost:3001"
 
     # ML
@@ -32,10 +37,6 @@ class Settings(BaseSettings):
     # LLM (optional)
     OPENAI_API_KEY: str = ""
     LLM_MODEL: str = "gpt-4o-mini"
-
-    class Config:
-        env_file = ".env"
-        env_file_encoding = "utf-8"
 
     @property
     def cors_origins_list(self) -> List[str]:
