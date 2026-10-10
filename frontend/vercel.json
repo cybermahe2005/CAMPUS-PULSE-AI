@@ -1,8 +1,13 @@
-﻿{
+{
   "framework": "nextjs",
   "buildCommand": "npm run build",
   "outputDirectory": ".next",
   "env": {
     "NEXT_PUBLIC_API_URL": "https://campus-pulse-ai-backend.onrender.com"
+  },
+  "build": {
+    "env": {
+      "NEXT_PUBLIC_API_URL": "https://campus-pulse-ai-backend.onrender.com"
+    }
   }
 }
